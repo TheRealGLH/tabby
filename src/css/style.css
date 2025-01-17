@@ -1,0 +1,9 @@
+@import 'light.css' screen;
+@import 'dark.css' screen and (prefers-color-scheme: dark) ;
+h1 {
+    color: red;
+}
+
+.bookmark-item-container {
+    margin-left: 10px;
+}

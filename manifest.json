@@ -1,0 +1,33 @@
+{
+	"name": "Tabby New Tab Page",
+	"short_name": "Tabby",
+    "developer": {
+        "name": "Martijn Daniels",
+        "url": "https://www.github.com/therealglh"
+    },
+	"version": "0.1.0",
+	"minimum_chrome_version": "104",
+	"manifest_version": 3,
+	"description": "New tab page for your bookmarks, and other cool things.",
+	"icons": {
+		"128": "icons/icon_128.png",
+		"48": "icons/icon_48.png",
+		"16": "icons/icon_16.png"
+	},
+	"permissions": [
+		"bookmarks",
+		"topSites",
+		"tabs",
+		"sessions"
+	],
+	"optional_host_permissions": [
+		"file:///"
+	],
+	"chrome_url_overrides": {
+		"newtab": "index.html"
+	},
+	"options_ui": {
+		"page": "index.html?options",
+		"open_in_tab": true
+	}
+}
