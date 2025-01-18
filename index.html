@@ -1,20 +1,20 @@
-<meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; 'script-src-attr'">
-<!DOCTYPE html>
+<meta
+    http-equiv="Content-Security-Policy"
+    content="default-src *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; 'script-src-attr'"
+/>
+<!doctype html>
 <html lang="en">
     <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>New Tab</title>
-        <link href="src/css/style.css" rel="stylesheet">
+        <link href="src/css/style.css" rel="stylesheet" />
     </head>
     <body>
         <template id="bookmark-list-item-template">
             <div class="bookmark-list-item">
-
-            <span class="bookmark-list-item-text"></span>
-                <div class="bookmark-item-container">
-                    
-                </div>
+                <span class="bookmark-list-item-text"></span>
+                <div class="bookmark-item-container"></div>
             </div>
         </template>
 
@@ -26,18 +26,22 @@
         <div id="settings">
             <button type="button" id="settings-button">⚙️</button>
             <div id="settings-menu">
-                <label for="settings-font">Fonts</label><input type="text" name="settings-font" id="settings-font" value=""> <br/>
-                <label for="settings-favourites">Favourites</label><select  id="settings-favourites">
-                </select>
+                <label for="settings-font">Fonts</label
+                ><input
+                    type="text"
+                    name="settings-font"
+                    id="settings-font"
+                    value=""
+                />
+                <br />
+                <label for="settings-favourites">Favourites</label
+                ><select id="settings-favourites"></select>
             </div>
         </div>
 
-        <div id="bookmark-list" >
-            <div class="bookmark-item-container">
-                
-            </div>
+        <div id="bookmark-list">
+            <div class="bookmark-item-container"></div>
         </div>
     </body>
-        <script src="src/script.js">
-        </script>
+    <script src="src/script.js"></script>
 </html>
