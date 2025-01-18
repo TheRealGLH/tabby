@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title></title>
+        <title>New Tab</title>
         <link href="src/css/style.css" rel="stylesheet">
     </head>
     <body>
@@ -17,7 +17,20 @@
                 </div>
             </div>
         </template>
-   <h1>New tab</h1> 
+
+        <div id="clock">
+            <h2 id="clock-date">Tuesday, January 20th 2000</h2>
+            <h1 id="clock-time">12:00</h1>
+        </div>
+
+        <div id="settings">
+            <button type="button" id="settings-button">⚙️</button>
+            <div id="settings-menu">
+                <label for="settings-font">Fonts</label><input type="text" name="settings-font" id="settings-font" value=""> <br/>
+                <label for="settings-favourites">Favourites</label><select  id="settings-favourites">
+                </select>
+            </div>
+        </div>
 
         <div id="bookmark-list" >
             <div class="bookmark-item-container">
