@@ -1,24 +1,34 @@
 const container = document.querySelector("#bookmark-list");
 const bookmarkTemplate = document.querySelector("#bookmark-list-item-template");
-        init();
+init();
 
 function init() {
     let bookmarks = browser.bookmarks.getTree();
     bookmarks.then(onBookmarks, onRejected);
     document.getElementById("settings-button").onclick = onSettingsToggle;
     let select = document.getElementById("settings-favourites");
-    select.onchange = function() {
+    select.onchange = function () {
         onSettingsFaveSelect(select);
     };
     var date = new Date();
-    displayDate(document.getElementById("clock-date"), date, {weekday: "long", year: "numeric", day: "numeric", month: "short"});
-    displayDate(document.getElementById("clock-time"), date, {timeStyle: "short"});
+    displayDate(document.getElementById("clock-date"), date, {
+        weekday: "long",
+        year: "numeric",
+        day: "numeric",
+        month: "short",
+    });
+    displayDate(document.getElementById("clock-time"), date, {
+        timeStyle: "short",
+    });
 }
 
 function onBookmarks(bookmarks) {
     bookmarks.forEach((bookmarkTree) => {
         renderBookmarkTreeItem(bookmarkTree, container);
-        populateFolderFaves(bookmarkTree, document.getElementById("settings-favourites"));
+        populateFolderFaves(
+            bookmarkTree,
+            document.getElementById("settings-favourites")
+        );
     });
 }
 
@@ -37,7 +47,8 @@ function populateFolderFaves(bookmarkTree, selectElement) {
 
 function renderBookmarkTreeItem(bookmarkTreeItem, parentElement) {
     let clone = bookmarkTemplate.content.firstElementChild.cloneNode(true);
-    if ( bookmarkTreeItem.title === "" && bookmarkTreeItem.url != undefined ) bookmarkTreeItem.title = bookmarkTreeItem.url;
+    if (bookmarkTreeItem.title === "" && bookmarkTreeItem.url != undefined)
+        bookmarkTreeItem.title = bookmarkTreeItem.url;
 
     if (bookmarkTreeItem.type == "folder") {
         clone.querySelector(".bookmark-list-item-text").textContent =
@@ -81,9 +92,8 @@ function onBookmarkFaveSettingChange(bookmarks) {
     });
 }
 
-function displayDate(timeElement, date, options ) {
+function displayDate(timeElement, date, options) {
     console.log(navigator.language);
     console.log(date);
     timeElement.innerText = date.toLocaleString(navigator.language, options);
 }
-
