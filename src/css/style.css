@@ -1,11 +1,33 @@
-@import 'light.css' screen;
-@import 'dark.css' screen and (prefers-color-scheme: dark);
+@import "light.css" screen;
+@import "dark.css" screen and (prefers-color-scheme: dark);
+body {
+    margin: 0;
+}
 h1 {
     color: red;
 }
 
 .bookmark-item-container {
     margin-left: 10px;
+}
+
+#page-cont {
+    width: 100%;
+    min-height: 100%;
+    background-image: url("../img/yosemite.jpg");
+    position: absolute;
+}
+
+#main-block {
+    width: 80%;
+    background-color: #737373dd;
+    padding-left: 10em;
+    padding-right: 10em;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 30px;
+    margin-top: 30px;
+    margin-bottom: 30px;
 }
 
 #settings {
