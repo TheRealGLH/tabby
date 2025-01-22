@@ -1,5 +1,8 @@
 const container = document.querySelector("#bookmark-list");
 const bookmarkTemplate = document.querySelector("#bookmark-list-item-template");
+var faveTree = null;
+var faveRootId = null;
+var currentFolderId = null;
 init();
 
 function init() {
@@ -7,7 +10,7 @@ function init() {
     bookmarks.then(onBookmarks, onRejected);
     document.getElementById("settings-button").onclick = onSettingsToggle;
     let select = document.getElementById("settings-favourites");
-    select.onchange = function () {
+    select.onchange = function() {
         onSettingsFaveSelect(select);
     };
     var date = new Date();
@@ -23,13 +26,14 @@ function init() {
 }
 
 function onBookmarks(bookmarks) {
-    bookmarks.forEach((bookmarkTree) => {
-        renderBookmarkTreeItem(bookmarkTree, container);
-        populateFolderFaves(
-            bookmarkTree,
-            document.getElementById("settings-favourites")
-        );
-    });
+    faveTree = bookmarks[0];
+    faveRootId = bookmarks[0].id;
+    currentFolderId = bookmarks[0].id;
+    renderBookmarkTreeItem(bookmarks[0], container);
+    populateFolderFaves(
+        bookmarks[0],
+        document.getElementById("settings-favourites")
+    );
 }
 
 function populateFolderFaves(bookmarkTree, selectElement) {
@@ -45,6 +49,24 @@ function populateFolderFaves(bookmarkTree, selectElement) {
     }
 }
 
+function onFolderSelect(bookmarkTreeItemFolder) {
+    if (bookmarkTreeItemFolder.id == faveRootId) return;
+    container.querySelector(".bookmark-item-container").innerHTML = "";
+    if(bookmarkTreeItemFolder.id == currentFolderId && bookmarkTreeItemFolder.parentId != undefined ) {
+        let selectedBookmarks = browser.bookmarks.getSubTree(bookmarkTreeItemFolder.parentId);
+        selectedBookmarks.then(onSelectedParentFolder, onRejected);
+    }
+    else {
+        currentFolderId = bookmarkTreeItemFolder.id;
+        renderBookmarkTreeItem(bookmarkTreeItemFolder, container);
+    }
+}
+ function onSelectedParentFolder(bookmarks) {
+    container.querySelector(".bookmark-item-container").innerHTML = "";
+    currentFolderId = bookmarks[0].id;
+    renderBookmarkTreeItem(bookmarks[0], container);
+}
+
 function renderBookmarkTreeItem(bookmarkTreeItem, parentElement) {
     let clone = bookmarkTemplate.content.firstElementChild.cloneNode(true);
     if (bookmarkTreeItem.title === "" && bookmarkTreeItem.url != undefined)
@@ -54,9 +76,13 @@ function renderBookmarkTreeItem(bookmarkTreeItem, parentElement) {
         clone.querySelector(".bookmark-list-item-text").textContent =
             bookmarkTreeItem.title;
         clone.classList.add(".bookmark-item-folder");
+
         bookmarkTreeItem.children.forEach((treeChild) => {
             renderBookmarkTreeItem(treeChild, clone);
         });
+        clone.querySelector(".bookmark-list-item-text").onclick = function() {
+            onFolderSelect(bookmarkTreeItem);
+        };
     } else {
         let link = document.createElement("a");
         link.href = bookmarkTreeItem.url;
@@ -83,11 +109,15 @@ function onSettingsToggle() {
 function onSettingsFaveSelect(selectElement) {
     let selectedBookmarks = browser.bookmarks.getSubTree(selectElement.value);
     selectedBookmarks.then(onBookmarkFaveSettingChange, onRejected);
+    //TODO save setting
 }
 
 function onBookmarkFaveSettingChange(bookmarks) {
     container.querySelector(".bookmark-item-container").innerHTML = "";
+    currentFolderId = bookmarks[0].id;
+    faveRootId =  bookmarks[0].id;
     bookmarks.forEach((bookmarkTree) => {
+        faveTree = bookmarkTree;
         renderBookmarkTreeItem(bookmarkTree, container);
     });
 }
