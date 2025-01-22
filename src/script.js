@@ -88,6 +88,13 @@ function renderBookmarkTreeItem(bookmarkTreeItem, parentElement) {
     } else {
         clone.querySelector(".bookmark-list-item-content").href =
             bookmarkTreeItem.url;
+        var domainName = getDomainName(bookmarkTreeItem.url);
+        if (domainName != null) {
+            clone.querySelector(".bookmark-item-pic").style.backgroundImage =
+                "url('https://quintessential-jade-termite.faviconkit.com/" +
+                domainName +
+                "/144')";
+        }
     }
     clone.querySelector(".bookmark-list-item-text").textContent =
         bookmarkTreeItem.title;
@@ -96,6 +103,17 @@ function renderBookmarkTreeItem(bookmarkTreeItem, parentElement) {
 
 function onRejected(error) {
     console.error(error);
+}
+
+function getDomainName(url) {
+    try {
+        const urlObject = new URL(url);
+
+        return urlObject.hostname;
+    } catch (error) {
+        console.error("Invalid URL:", error);
+        return null;
+    }
 }
 
 function onSettingsToggle() {
