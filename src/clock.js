@@ -14,8 +14,6 @@ function init() {
     setTimeout(init, 60000);
 }
 function displayDate(timeElement, date, options) {
-    console.log(navigator.language);
-    console.log(date);
     timeElement.innerText = date.toLocaleString(navigator.language, options);
 }
 
