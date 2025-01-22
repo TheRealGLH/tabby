@@ -1,5 +1,6 @@
 const container = document.querySelector("#bookmark-list");
 const bookmarkTemplate = document.querySelector("#bookmark-list-item-template");
+const fadeOutTime = 300; //This is the fadeout time used in style,css for the main bookmark list. We can't directly import it.
 var faveTree = null;
 var faveRootId = null;
 var currentFolderId = null;
@@ -51,19 +52,25 @@ function populateFolderFaves(bookmarkTree, selectElement) {
 
 function onFolderSelect(bookmarkTreeItemFolder) {
     if (bookmarkTreeItemFolder.id == faveRootId) return;
-    container.querySelector(".bookmark-item-container").innerHTML = "";
-    if (
-        bookmarkTreeItemFolder.id == currentFolderId &&
-        bookmarkTreeItemFolder.parentId != undefined
-    ) {
-        let selectedBookmarks = browser.bookmarks.getSubTree(
-            bookmarkTreeItemFolder.parentId
-        );
-        selectedBookmarks.then(onSelectedParentFolder, onRejected);
-    } else {
-        currentFolderId = bookmarkTreeItemFolder.id;
-        renderBookmarkTreeItem(bookmarkTreeItemFolder, container);
-    }
+    var listElement = container.querySelector(".bookmark-item-container");
+    listElement.classList.add("fade-out");
+    setTimeout(() => {
+        listElement.innerHTML = "";
+        listElement.classList.remove("fade-out");
+        listElement.style.opacity = 1;
+        if (
+            bookmarkTreeItemFolder.id == currentFolderId &&
+            bookmarkTreeItemFolder.parentId != undefined
+        ) {
+            let selectedBookmarks = browser.bookmarks.getSubTree(
+                bookmarkTreeItemFolder.parentId
+            );
+            selectedBookmarks.then(onSelectedParentFolder, onRejected);
+        } else {
+            currentFolderId = bookmarkTreeItemFolder.id;
+            renderBookmarkTreeItem(bookmarkTreeItemFolder, container);
+        }
+    }, fadeOutTime);
 }
 function onSelectedParentFolder(bookmarks) {
     container.querySelector(".bookmark-item-container").innerHTML = "";
@@ -79,7 +86,6 @@ function renderBookmarkTreeItem(bookmarkTreeItem, parentElement) {
         bookmarkTreeItem.title = bookmarkTreeItem.url;
 
     if (bookmarkTreeItem.type == "folder") {
-        
         clone.classList.add("bookmark-item-folder");
 
         bookmarkTreeItem.children.forEach((treeChild) => {
@@ -90,7 +96,7 @@ function renderBookmarkTreeItem(bookmarkTreeItem, parentElement) {
         };
     }
     clone.querySelector(".bookmark-list-item-text").textContent =
-            bookmarkTreeItem.title; 
+        bookmarkTreeItem.title;
     parentElement.querySelector(".bookmark-item-container").appendChild(clone);
 }
 
@@ -114,13 +120,19 @@ function onSettingsFaveSelect(selectElement) {
 }
 
 function onBookmarkFaveSettingChange(bookmarks) {
-    container.querySelector(".bookmark-item-container").innerHTML = "";
-    currentFolderId = bookmarks[0].id;
-    faveRootId = bookmarks[0].id;
-    bookmarks.forEach((bookmarkTree) => {
-        faveTree = bookmarkTree;
-        renderBookmarkTreeItem(bookmarkTree, container);
-    });
+    var listElement = container.querySelector(".bookmark-item-container");
+    listElement.classList.add("fade-out");
+    setTimeout(() => {
+        listElement.innerHTML = "";
+        listElement.classList.remove("fade-out");
+        listElement.style.opacity = 1;
+        currentFolderId = bookmarks[0].id;
+        faveRootId = bookmarks[0].id;
+        bookmarks.forEach((bookmarkTree) => {
+            faveTree = bookmarkTree;
+            renderBookmarkTreeItem(bookmarkTree, container);
+        });
+    }, fadeOutTime);
 }
 
 function displayDate(timeElement, date, options) {

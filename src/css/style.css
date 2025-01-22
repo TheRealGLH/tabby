@@ -65,6 +65,16 @@ body {
     font-weight: bold;
 
 }
+
+#bookmark-list > .bookmark-item-container {
+    transition: opacity 0.3s ease-out; /* Transition for the fade effect */
+    opacity: 1; /* Initial opacity */
+
+}
+
+.fade-out {
+    opacity: 0!important; /* Fade out opacity */
+}
 #bookmark-list  > .bookmark-item-container > .bookmark-list-item > .bookmark-item-container {
     padding-top: 2em;
 }
