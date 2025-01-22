@@ -5,8 +5,10 @@ A lightweight new tab page wrapped for the Manifest V3 browser extension platfor
 It's currently in a very early state, but intended features include the following:
 
 - [x] Viewing your browser bookmarks
-- [ ] Time and weather widgets
-- [ ] A greeter
-- [x] Choosing the elements
+- [ ] Viewing recently closed or often used tabs
+- [x] Clock 
+- [ ] Toggling which elements are visible 
 - [ ] Colour scheme editing
-- [ ] Saving settings
+- [x] Saving settings
+- [ ] Custom background
+- [ ] Custom fonts
