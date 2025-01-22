@@ -20,11 +20,16 @@ function init() {
 
 function onFaveLoaded(faveBookmarkSetting) {
     console.log(faveBookmarkSetting);
-    if (Object.keys(faveBookmarkSetting).length === 0 && faveBookmarkSetting.constructor === Object) {
+    if (
+        Object.keys(faveBookmarkSetting).length === 0 &&
+        faveBookmarkSetting.constructor === Object
+    ) {
         onNoFaveSet();
         return;
     }
-    let bookmarks = browser.bookmarks.getSubTree(faveBookmarkSetting.faveFolder);
+    let bookmarks = browser.bookmarks.getSubTree(
+        faveBookmarkSetting.faveFolder
+    );
     bookmarks.then(displayRootBootmarks, onRejected);
 }
 
@@ -39,11 +44,10 @@ function displayRootBootmarks(bookmarks) {
     faveRootId = bookmarks[0].id;
     currentFolderId = bookmarks[0].id;
     renderBookmarkTreeItem(bookmarks[0], container);
-
 }
 
 function onBookmarks(bookmarks) {
-        populateFolderFaves(
+    populateFolderFaves(
         bookmarks[0],
         document.getElementById("settings-favourites")
     );
@@ -107,6 +111,12 @@ function renderBookmarkTreeItem(bookmarkTreeItem, parentElement) {
             function() {
                 onFolderSelect(bookmarkTreeItem);
             };
+    } else if (bookmarkTreeItem.type == "separator") {
+        console.log("blah");
+        let lineBreak = document.createElement("hr");
+        lineBreak.setAttribute("noshade", "");
+        parentElement.querySelector(".bookmark-item-container").appendChild(lineBreak);
+        return;
     } else {
         clone.querySelector(".bookmark-list-item-content").href =
             bookmarkTreeItem.url;
@@ -154,7 +164,6 @@ function onSettingsFaveSelect(selectElement) {
     let selectedBookmarks = browser.bookmarks.getSubTree(selectElement.value);
     selectedBookmarks.then(onBookmarkFaveSettingChange, onRejected);
     //TODO save setting
-    
 }
 
 function onBookmarkFaveSettingChange(bookmarks) {

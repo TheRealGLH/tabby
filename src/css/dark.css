@@ -10,3 +10,7 @@ a:visited {
 #settings-menu {
     background-color: #303030de;
 }
+
+hr {
+    border-color: #80808080;
+}
