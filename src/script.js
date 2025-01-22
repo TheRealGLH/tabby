@@ -79,8 +79,7 @@ function renderBookmarkTreeItem(bookmarkTreeItem, parentElement) {
         bookmarkTreeItem.title = bookmarkTreeItem.url;
 
     if (bookmarkTreeItem.type == "folder") {
-        clone.querySelector(".bookmark-list-item-text").textContent =
-            bookmarkTreeItem.title;
+        
         clone.classList.add("bookmark-item-folder");
 
         bookmarkTreeItem.children.forEach((treeChild) => {
@@ -89,13 +88,9 @@ function renderBookmarkTreeItem(bookmarkTreeItem, parentElement) {
         clone.querySelector(".bookmark-list-item-text").onclick = function() {
             onFolderSelect(bookmarkTreeItem);
         };
-    } else {
-        let link = document.createElement("a");
-        link.href = bookmarkTreeItem.url;
-        link.textContent = bookmarkTreeItem.title;
-        clone.classList.add(".bookmark-item-link");
-        clone.querySelector(".bookmark-list-item-text").appendChild(link);
     }
+    clone.querySelector(".bookmark-list-item-text").textContent =
+            bookmarkTreeItem.title; 
     parentElement.querySelector(".bookmark-item-container").appendChild(clone);
 }
 
@@ -105,7 +100,7 @@ function onRejected(error) {
 
 function onSettingsToggle() {
     let menu = document.getElementById("settings-menu");
-    if (menu.style.display === "none") {
+    if (menu.style.display != "block") {
         menu.style.display = "block";
     } else {
         menu.style.display = "none";

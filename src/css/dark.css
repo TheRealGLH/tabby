@@ -2,3 +2,7 @@ body {
     background-color: #000;
     color: white;
 }
+
+#settings-menu {
+    background-color: #303030de;
+}
