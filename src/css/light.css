@@ -2,3 +2,10 @@ body {
     background-color: #fff;
     color: black;
 }
+a, a:visited {
+    color: black;
+}
+
+#settings-menu {
+    background-color: #808080de;
+}

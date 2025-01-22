@@ -60,7 +60,7 @@ body {
     padding-top: 0.3em;
 }
 
-#bookmark-list  > .bookmark-item-container > .bookmark-list-item > .bookmark-list-item-text {
+#bookmark-list  > .bookmark-item-container > .bookmark-list-item > .bookmark-list-item-content > .bookmark-list-item-text {
     font-size: 1.4em;
     font-weight: bold;
 
