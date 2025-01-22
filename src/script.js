@@ -81,7 +81,7 @@ function renderBookmarkTreeItem(bookmarkTreeItem, parentElement) {
     if (bookmarkTreeItem.type == "folder") {
         clone.querySelector(".bookmark-list-item-text").textContent =
             bookmarkTreeItem.title;
-        clone.classList.add(".bookmark-item-folder");
+        clone.classList.add("bookmark-item-folder");
 
         bookmarkTreeItem.children.forEach((treeChild) => {
             renderBookmarkTreeItem(treeChild, clone);
