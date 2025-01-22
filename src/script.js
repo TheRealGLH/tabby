@@ -14,16 +14,6 @@ function init() {
     select.onchange = function() {
         onSettingsFaveSelect(select);
     };
-    var date = new Date();
-    displayDate(document.getElementById("clock-date"), date, {
-        weekday: "long",
-        year: "numeric",
-        day: "numeric",
-        month: "short",
-    });
-    displayDate(document.getElementById("clock-time"), date, {
-        timeStyle: "short",
-    });
 }
 
 function onBookmarks(bookmarks) {
@@ -135,8 +125,4 @@ function onBookmarkFaveSettingChange(bookmarks) {
     }, fadeOutTime);
 }
 
-function displayDate(timeElement, date, options) {
-    console.log(navigator.language);
-    console.log(date);
-    timeElement.innerText = date.toLocaleString(navigator.language, options);
-}
+
