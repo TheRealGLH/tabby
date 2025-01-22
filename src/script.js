@@ -52,22 +52,28 @@ function populateFolderFaves(bookmarkTree, selectElement) {
 function onFolderSelect(bookmarkTreeItemFolder) {
     if (bookmarkTreeItemFolder.id == faveRootId) return;
     container.querySelector(".bookmark-item-container").innerHTML = "";
-    if(bookmarkTreeItemFolder.id == currentFolderId && bookmarkTreeItemFolder.parentId != undefined ) {
-        let selectedBookmarks = browser.bookmarks.getSubTree(bookmarkTreeItemFolder.parentId);
+    if (
+        bookmarkTreeItemFolder.id == currentFolderId &&
+        bookmarkTreeItemFolder.parentId != undefined
+    ) {
+        let selectedBookmarks = browser.bookmarks.getSubTree(
+            bookmarkTreeItemFolder.parentId
+        );
         selectedBookmarks.then(onSelectedParentFolder, onRejected);
-    }
-    else {
+    } else {
         currentFolderId = bookmarkTreeItemFolder.id;
         renderBookmarkTreeItem(bookmarkTreeItemFolder, container);
     }
 }
- function onSelectedParentFolder(bookmarks) {
+function onSelectedParentFolder(bookmarks) {
     container.querySelector(".bookmark-item-container").innerHTML = "";
     currentFolderId = bookmarks[0].id;
     renderBookmarkTreeItem(bookmarks[0], container);
 }
 
 function renderBookmarkTreeItem(bookmarkTreeItem, parentElement) {
+    if (bookmarkTreeItem.parentId == undefined)
+        bookmarkTreeItem.title = "Favourites";
     let clone = bookmarkTemplate.content.firstElementChild.cloneNode(true);
     if (bookmarkTreeItem.title === "" && bookmarkTreeItem.url != undefined)
         bookmarkTreeItem.title = bookmarkTreeItem.url;
@@ -115,7 +121,7 @@ function onSettingsFaveSelect(selectElement) {
 function onBookmarkFaveSettingChange(bookmarks) {
     container.querySelector(".bookmark-item-container").innerHTML = "";
     currentFolderId = bookmarks[0].id;
-    faveRootId =  bookmarks[0].id;
+    faveRootId = bookmarks[0].id;
     bookmarks.forEach((bookmarkTree) => {
         faveTree = bookmarkTree;
         renderBookmarkTreeItem(bookmarkTree, container);
