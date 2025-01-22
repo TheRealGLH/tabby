@@ -7,8 +7,10 @@ var currentFolderId = null;
 init();
 
 function init() {
-    let bookmarks = browser.bookmarks.getTree();
-    bookmarks.then(onBookmarks, onRejected);
+    let faveFolder = browser.storage.sync.get("faveFolder");
+    faveFolder.then(onFaveLoaded, onNoFaveSet);
+    let fullBookmarks = browser.bookmarks.getTree();
+    fullBookmarks.then(onBookmarks, onRejected);
     document.getElementById("settings-button").onclick = onSettingsToggle;
     let select = document.getElementById("settings-favourites");
     select.onchange = function() {
@@ -16,12 +18,32 @@ function init() {
     };
 }
 
-function onBookmarks(bookmarks) {
+function onFaveLoaded(faveBookmarkSetting) {
+    console.log(faveBookmarkSetting);
+    if (Object.keys(faveBookmarkSetting).length === 0 && faveBookmarkSetting.constructor === Object) {
+        onNoFaveSet();
+        return;
+    }
+    let bookmarks = browser.bookmarks.getSubTree(faveBookmarkSetting.faveFolder);
+    bookmarks.then(displayRootBootmarks, onRejected);
+}
+
+function onNoFaveSet() {
+    console.log("No fave set!");
+    let bookmarks = browser.bookmarks.getTree();
+    bookmarks.then(displayRootBootmarks, onRejected);
+}
+
+function displayRootBootmarks(bookmarks) {
     faveTree = bookmarks[0];
     faveRootId = bookmarks[0].id;
     currentFolderId = bookmarks[0].id;
     renderBookmarkTreeItem(bookmarks[0], container);
-    populateFolderFaves(
+
+}
+
+function onBookmarks(bookmarks) {
+        populateFolderFaves(
         bookmarks[0],
         document.getElementById("settings-favourites")
     );
@@ -126,9 +148,13 @@ function onSettingsToggle() {
 }
 
 function onSettingsFaveSelect(selectElement) {
+    browser.storage.sync.set({
+        faveFolder: selectElement.value,
+    });
     let selectedBookmarks = browser.bookmarks.getSubTree(selectElement.value);
     selectedBookmarks.then(onBookmarkFaveSettingChange, onRejected);
     //TODO save setting
+    
 }
 
 function onBookmarkFaveSettingChange(bookmarks) {
