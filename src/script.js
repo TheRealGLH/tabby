@@ -81,12 +81,13 @@ function renderBookmarkTreeItem(bookmarkTreeItem, parentElement) {
         bookmarkTreeItem.children.forEach((treeChild) => {
             renderBookmarkTreeItem(treeChild, clone);
         });
-        clone.querySelector(".bookmark-list-item-content").onclick = function() {
-            onFolderSelect(bookmarkTreeItem);
-        };
-    }
-    else {
-        clone.querySelector(".bookmark-list-item-content").href = bookmarkTreeItem.url;
+        clone.querySelector(".bookmark-list-item-content").onclick =
+            function() {
+                onFolderSelect(bookmarkTreeItem);
+            };
+    } else {
+        clone.querySelector(".bookmark-list-item-content").href =
+            bookmarkTreeItem.url;
     }
     clone.querySelector(".bookmark-list-item-text").textContent =
         bookmarkTreeItem.title;
@@ -127,5 +128,3 @@ function onBookmarkFaveSettingChange(bookmarks) {
         });
     }, fadeOutTime);
 }
-
-

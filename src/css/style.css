@@ -7,7 +7,8 @@ body {
 
 #clock {
 }
-#clock-date, #clock-time {
+#clock-date,
+#clock-time {
     display: block;
     width: fit-content;
     margin-left: auto;
@@ -23,12 +24,20 @@ body {
     font-size: 3em;
 }
 
-
-#bookmark-list .bookmark-item-container .bookmark-item-folder .bookmark-item-container .bookmark-item-folder .bookmark-item-container {
+#bookmark-list
+    .bookmark-item-container
+    .bookmark-item-folder
+    .bookmark-item-container
+    .bookmark-item-folder
+    .bookmark-item-container {
     display: none;
 }
 
-#bookmark-list .bookmark-item-container .bookmark-item-folder .bookmark-item-container .bookmark-list-item {
+#bookmark-list
+    .bookmark-item-container
+    .bookmark-item-folder
+    .bookmark-item-container
+    .bookmark-list-item {
     display: inline-block;
     width: 7.5em;
     height: 10em;
@@ -36,19 +45,33 @@ body {
     padding-left: 1em;
     padding-bottom: 2em;
 }
-#bookmark-list .bookmark-item-container .bookmark-item-folder .bookmark-item-container .bookmark-list-item .bookmark-item-pic {
+#bookmark-list
+    .bookmark-item-container
+    .bookmark-item-folder
+    .bookmark-item-container
+    .bookmark-list-item
+    .bookmark-item-pic {
     width: 7.5em;
     height: 7.5em;
     background-color: #80808080;
     border-radius: 20px;
     background-size: cover;
 }
-#bookmark-list .bookmark-item-container .bookmark-item-folder .bookmark-item-container .bookmark-item-folder .bookmark-item-pic {
-    background-image: url('../img/tabby-icon.png');
+#bookmark-list
+    .bookmark-item-container
+    .bookmark-item-folder
+    .bookmark-item-container
+    .bookmark-item-folder
+    .bookmark-item-pic {
+    background-image: url("../img/tabby-icon.png");
 }
 
-
-#bookmark-list .bookmark-item-container .bookmark-item-folder .bookmark-item-container .bookmark-list-item .bookmark-list-item-text {
+#bookmark-list
+    .bookmark-item-container
+    .bookmark-item-folder
+    .bookmark-item-container
+    .bookmark-list-item
+    .bookmark-list-item-text {
     display: inline-flex;
     font-size: 1em;
     max-height: 2.5em;
@@ -60,22 +83,27 @@ body {
     padding-top: 0.3em;
 }
 
-#bookmark-list  > .bookmark-item-container > .bookmark-list-item > .bookmark-list-item-content > .bookmark-list-item-text {
+#bookmark-list
+    > .bookmark-item-container
+    > .bookmark-list-item
+    > .bookmark-list-item-content
+    > .bookmark-list-item-text {
     font-size: 1.4em;
     font-weight: bold;
-
 }
 
 #bookmark-list > .bookmark-item-container {
     transition: opacity 0.3s ease-out; /* Transition for the fade effect */
     opacity: 1; /* Initial opacity */
-
 }
 
 .fade-out {
-    opacity: 0!important; /* Fade out opacity */
+    opacity: 0 !important; /* Fade out opacity */
 }
-#bookmark-list  > .bookmark-item-container > .bookmark-list-item > .bookmark-item-container {
+#bookmark-list
+    > .bookmark-item-container
+    > .bookmark-list-item
+    > .bookmark-item-container {
     padding-top: 2em;
 }
 

@@ -2,7 +2,8 @@ body {
     background-color: #000;
     color: white;
 }
-a, a:visited {
+a,
+a:visited {
     color: white;
 }
 
