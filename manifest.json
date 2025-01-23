@@ -19,6 +19,9 @@
     "chrome_url_overrides": {
         "newtab": "index.html"
     },
+      "chrome_settings_overrides": {
+    "homepage": "newtab.html"
+  },
     "options_ui": {
         "page": "index.html?options",
         "open_in_tab": true
@@ -26,7 +29,7 @@
     "browser_specific_settings": {
         "gecko": {
             "id": "tabby@therealglh.github.com",
-            "strict_min_version": "58.0"
+            "strict_min_version": "100"
         }
     }
 }
