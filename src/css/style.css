@@ -184,12 +184,19 @@ body {
 }
 
 #settings-button {
+    transition: rotate 0.3s ease-out, opacity 0.3s ease-out;
+    opacity: 0.5;
+    rotate: 0deg;
     display: block;
     margin-left: auto;
     margin-right: 0;
     border: none;
     background: none;
     padding: 0.7em;
+}
+#settings-button:hover{
+    rotate: 180deg;
+    opacity: 1;
 }
 
 hr {
