@@ -8,9 +8,12 @@ a:visited {
 }
 
 #settings-menu {
-    background-color: #303030de;
+    background-color: #8080808e;
 }
 
 hr {
     border-color: #80808080;
+}
+#settings-button {
+    color: white;
 }

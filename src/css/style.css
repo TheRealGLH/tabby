@@ -56,6 +56,15 @@ body {
     background-color: #80808080;
     border-radius: 20px;
     background-size: cover;
+    transition: scale 0.1s ease-out; /* Transition for the fade effect */
+}
+#bookmark-list
+    .bookmark-item-container
+    .bookmark-item-folder
+    .bookmark-item-container
+    .bookmark-list-item
+    .bookmark-item-pic:hover{
+    scale: 1.05;
 }
 #bookmark-list
     .bookmark-item-container
@@ -95,6 +104,9 @@ body {
 #bookmark-list > .bookmark-item-container {
     transition: opacity 0.3s ease-out; /* Transition for the fade effect */
     opacity: 1; /* Initial opacity */
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .fade-out {
@@ -128,8 +140,8 @@ body {
 
 #settings {
     position: fixed;
-    top: 0;
-    right: 0;
+    top: 0.5em;
+    right: 1em;
 }
 
 #settings-menu {
@@ -139,16 +151,29 @@ body {
     padding-left: 20px;
     padding-right: 20px;
     display: none;
+    min-width: 17em;
+}
+
+.settings-menu-item {
+    display: flex;
+}
+.settings-menu-item > label {
+    margin-right: auto;
 }
 
 #settings-button {
     display: block;
     margin-left: auto;
     margin-right: 0;
+    border: none;
+    background: none;
+    padding: 0.7em;
 }
 
 hr {
     border-width: 3px;
     border-radius: 30px;
     width: 75%;
+    margin-bottom: 2em;
 }
+
