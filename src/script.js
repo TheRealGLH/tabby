@@ -1,5 +1,11 @@
 const container = document.querySelector("#bookmark-list");
 const bookmarkTemplate = document.querySelector("#bookmark-list-item-template");
+const pageCont = document.getElementById("page-cont");
+const bgColorSettingsInput = document.getElementById(
+    "settings-background-color"
+);
+const bgFileSettingsInput = document.getElementById("settings-background-file");
+const bgUrlSettingsInput = document.getElementById("settings-background-url");
 const fadeOutTime = 300; //This is the fadeout time used in style,css for the main bookmark list. We can't directly import it.
 var faveTree = null;
 var faveRootId = null;
@@ -7,19 +13,79 @@ var currentFolderId = null;
 init();
 
 function init() {
+    let backgroundSelect = document.getElementById("settings-background");
+    backgroundSelect.onchange = function() {
+        onBackgroundTypeSelect(backgroundSelect.value);
+    };
+    bgColorSettingsInput.onchange = function() {
+        onBackgroundColorSelected(bgColorSettingsInput);
+    };
+    bgFileSettingsInput.onchange = function() {
+        onBackgroundFileSelected(bgFileSettingsInput);
+    };
+    bgUrlSettingsInput.onchange = function() {
+        onBackgroundUrlSelected(bgUrlSettingsInput);
+    };
+    let backgroundColor = browser.storage.sync.get("bgColor");
+    backgroundColor.then(onBgColorLoaded, onNoBgType);
+    let backgroundUrl = browser.storage.sync.get("bgUrl");
+    backgroundUrl.then(onBgFileLoaded, onNoBgType);
+    let backGroundType = browser.storage.sync.get("bgType");
+    backGroundType.then(onBgTypeLoaded, onNoBgType);
     let faveFolder = browser.storage.sync.get("faveFolder");
     faveFolder.then(onFaveLoaded, onNoFaveSet);
     let fullBookmarks = browser.bookmarks.getTree();
     fullBookmarks.then(onBookmarks, onRejected);
     document.getElementById("settings-button").onclick = onSettingsToggle;
-    let select = document.getElementById("settings-favourites");
-    select.onchange = function() {
-        onSettingsFaveSelect(select);
+    let faveSelect = document.getElementById("settings-favourites");
+    faveSelect.onchange = function() {
+        onSettingsFaveSelect(faveSelect);
     };
 }
 
+function onBgFileLoaded(bgFileSetting) {
+    console.log(bgFileSetting);
+    if (
+        Object.keys(bgFileSetting).length === 0 &&
+        bgFileSetting.constructor === Object
+    ) {
+        onNoBgType();
+        return;
+    }
+    bgUrlSettingsInput.value = bgFileSetting.bgUrl;
+    updateBackgroundImage(bgFileSetting.bgUrl);
+
+}
+
+function onBgColorLoaded(bgColorSetting) {
+    if (
+        Object.keys(bgColorSetting).length === 0 &&
+        bgColorSetting.constructor === Object
+    ) {
+        onNoBgType();
+        return;
+    }
+    bgColorSettingsInput.value = bgColorSetting.bgColor;
+    updateBackgroundColor(bgColorSetting.bgColor);
+}
+
+function onBgTypeLoaded(bgTypeSetting) {
+    if (
+        Object.keys(bgTypeSetting).length === 0 &&
+        bgTypeSetting.constructor === Object
+    ) {
+        onNoBgType();
+        return;
+    }
+    document.getElementById("settings-background").value = bgTypeSetting.bgType;
+    onBackgroundTypeSelect(bgTypeSetting.bgType);
+}
+
+function onNoBgType() {
+    onBackgroundTypeSelect("solid");
+}
+
 function onFaveLoaded(faveBookmarkSetting) {
-    console.log(faveBookmarkSetting);
     if (
         Object.keys(faveBookmarkSetting).length === 0 &&
         faveBookmarkSetting.constructor === Object
@@ -30,6 +96,7 @@ function onFaveLoaded(faveBookmarkSetting) {
     let bookmarks = browser.bookmarks.getSubTree(
         faveBookmarkSetting.faveFolder
     );
+    faveRootId = faveBookmarkSetting.faveFolder;
     bookmarks.then(displayRootBootmarks, onRejected);
 }
 
@@ -64,6 +131,8 @@ function populateFolderFaves(bookmarkTree, selectElement) {
         option.innerText = bookmarkTree.title;
         selectElement.appendChild(option);
     }
+    let faves = document.getElementById("settings-favourites");
+    faves.value = faveRootId;
 }
 
 function onFolderSelect(bookmarkTreeItemFolder) {
@@ -115,7 +184,9 @@ function renderBookmarkTreeItem(bookmarkTreeItem, parentElement) {
         console.log("blah");
         let lineBreak = document.createElement("hr");
         lineBreak.setAttribute("noshade", "");
-        parentElement.querySelector(".bookmark-item-container").appendChild(lineBreak);
+        parentElement
+            .querySelector(".bookmark-item-container")
+            .appendChild(lineBreak);
         return;
     } else {
         clone.querySelector(".bookmark-list-item-content").href =
@@ -180,4 +251,73 @@ function onBookmarkFaveSettingChange(bookmarks) {
             renderBookmarkTreeItem(bookmarkTree, container);
         });
     }, fadeOutTime);
+}
+
+function onBackgroundTypeSelect(value) {
+    var colorElement = document.getElementById(
+        "settings-menu-item-background-color"
+    );
+    var fileElement = document.getElementById(
+        "settings-menu-item-background-file"
+    );
+    var urlElement = document.getElementById(
+        "settings-menu-item-background-url"
+    );
+    switch (value) {
+        case "solid":
+            colorElement.style.display = "block";
+            fileElement.style.display = "none";
+            urlElement.style.display = "none";
+            updateBackgroundColor(bgColorSettingsInput.value);
+            break;
+        case "file":
+            colorElement.style.display = "none";
+            fileElement.style.display = "block";
+            urlElement.style.display = "none";
+            updateBackgroundImage(bgFileSettingsInput.value);
+            break;
+        case "url":
+            colorElement.style.display = "none";
+            fileElement.style.display = "none";
+            urlElement.style.display = "block";
+            updateBackgroundImage(bgUrlSettingsInput.value);
+            break;
+        default:
+            break;
+    }
+    browser.storage.sync.set({
+        bgType: value,
+    });
+}
+
+function onBackgroundColorSelected(colorInputElement) {
+    updateBackgroundColor(colorInputElement.value);
+    browser.storage.sync.set({
+        bgColor: colorInputElement.value,
+    });
+}
+
+function onBackgroundFileSelected(fileInputElement) {
+    let url = URL.createObjectURL(fileInputElement.files[0]);
+    updateBackgroundImage(url);
+    console.log(url);
+
+}
+
+function onBackgroundUrlSelected(urlInputElement) {
+    let url = urlInputElement.value;
+    updateBackgroundImage(url);
+    browser.storage.sync.set({
+        bgUrl: urlInputElement.value,
+    });
+    console.log(url);
+}
+
+function updateBackgroundColor(colorHex) {
+    pageCont.style.backgroundImage = "none";
+    pageCont.style.backgroundColor = colorHex;
+}
+
+function updateBackgroundImage(imageUrl) {
+    pageCont.style.backgroundImage = "url('"+imageUrl+"')";
 }

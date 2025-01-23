@@ -45,7 +45,7 @@
                     </button>
                     <div id="settings-menu">
                         <div class="settings-menu-item settings-menu-heading">
-                            <b>Settings</b>
+                            General
                         </div>
                         <div
                             class="settings-menu-item"
@@ -67,8 +67,56 @@
                             <label for="settings-favourites">Folder</label
                             ><select id="settings-favourites"></select>
                         </div>
+                        <div
+                            class="settings-menu-item"
+                            id="settings-menu-item-background"
+                        >
+                            <label for="settings-background">Background</label
+                            ><select id="settings-background">
+                                <option value="solid">Solid Colour</option>
+                                <option disabled value="file">Image file</option>
+                                <option value="url">Image URL</option>
+                            </select>
+                        </div>
+                        <div
+                            class="settings-menu-item"
+                            id="settings-menu-item-background-color"
+                        >
+                            <label for="settings-background-color">Colour</label>
+                            <input
+                                type="color"
+                                name="settings-background-color"
+                                id="settings-background-color"
+                                value="#333350"
+                            />
+                        </div>
+                        <div
+                            class="settings-menu-item"
+                            id="settings-menu-item-background-url"
+                        >
+                            <label for="settings-background-url">Image url</label>
+                            <input
+                                type="url"
+                                name="settings-background-url"
+                                id="settings-background-url"
+                                value=""
+                            />
+                        </div>
+                        <div
+                            class="settings-menu-item"
+                            id="settings-menu-item-background-file"
+                        >
+                            <label for="settings-background-file">Image file</label>
+                            <input
+                                type="file"
+                                name="settings-background-file"
+                                id="settings-background-file"
+                                value=""
+                                accept=".png, .jpg, .jpeg, .webp"
+                            />
+                        </div>
                         <div class="settings-menu-item settings-menu-heading">
-                            <b>Elements</b>
+                            Elements
                         </div>
                         <div
                             class="settings-menu-check-item"
