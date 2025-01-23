@@ -1,8 +1,20 @@
 @import "light.css" screen;
 @import "dark.css" screen and (prefers-color-scheme: dark);
+@font-face {
+    font-family: Roboto;
+    src: url('../font/Roboto-VariableFont_wdth,wght.ttf');
+}
+@font-face {
+    font-family: RobotoCondensed;
+    src: url('../font/RobotoCondensed-VariableFont_wght.ttf');
+}
+@font-face {
+    font-family: RobotoMono;
+    src: url('../font/RobotoMono-VariableFont_wght.ttf');
+}
 body {
     margin: 0;
-    font-family: roboto, arial;
+    font-family: Roboto, arial;
 }
 
 #clock {
@@ -21,6 +33,7 @@ body {
 }
 
 #clock-time {
+    font-family: RobotoMono;
     font-size: 3em;
 }
 
