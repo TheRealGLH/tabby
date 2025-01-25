@@ -1,6 +1,15 @@
-# Tabby New Tabs
+#  ![Tabby logo](public/tabby-icon.png) Tabby New Tabs
 
 A lightweight new tab page wrapped for the Manifest V3 browser extension platform.
+
+![Preview screenshot](public/screenshot-basic.png)
+
+## Downloads
+
+- [Firefox](https://addons.mozilla.org/en-GB/firefox/addon/tabby-new-tab/)
+- Chrome/ Edge (coming soon)
+
+## Features
 
 It's currently in a very early state, but intended features include the following:
 
@@ -8,7 +17,7 @@ It's currently in a very early state, but intended features include the followin
 - [ ] Viewing recently closed or often used tabs
 - [x] Clock 
 - [ ] Toggling which elements are visible 
-- [ ] Colour scheme editing
+- [x] Colour scheme editing
 - [x] Saving settings
-- [ ] Custom background
+- [x] Custom background
 - [ ] Custom fonts
