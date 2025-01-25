@@ -1,4 +1,4 @@
-#  ![Tabby logo](public/tabby-icon.png) Tabby New Tabs
+#  ![Tabby logo](public/tabby-icon-32.png) Tabby New Tabs
 
 A lightweight new tab page wrapped for the Manifest V3 browser extension platform.
 
