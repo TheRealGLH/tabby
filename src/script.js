@@ -265,21 +265,21 @@ function onBackgroundTypeSelect(value) {
     );
     switch (value) {
         case "solid":
-            colorElement.style.display = "block";
+            colorElement.style.display = "flex";
             fileElement.style.display = "none";
             urlElement.style.display = "none";
             updateBackgroundColor(bgColorSettingsInput.value);
             break;
         case "file":
             colorElement.style.display = "none";
-            fileElement.style.display = "block";
+            fileElement.style.display = "flex";
             urlElement.style.display = "none";
             updateBackgroundImage(bgFileSettingsInput.value);
             break;
         case "url":
             colorElement.style.display = "none";
             fileElement.style.display = "none";
-            urlElement.style.display = "block";
+            urlElement.style.display = "flex";
             updateBackgroundImage(bgUrlSettingsInput.value);
             break;
         default:
