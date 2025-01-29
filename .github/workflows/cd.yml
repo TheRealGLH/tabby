@@ -1,0 +1,47 @@
+name: "Publish"
+on:
+    release:
+        types: [published]
+
+jobs:
+    sign:
+        name: "Release"
+        runs-on: ubuntu-latest
+        steps:
+            - name: "Checkout"
+              uses: actions/checkout@v4
+
+            - name: "web-ext lint"
+              uses: kewisch/action-web-ext@v1
+              with:
+                  cmd: lint
+                  source: src
+                  channel: listed
+
+            - name: "web-ext build"
+              id: web-ext-build
+              uses: kewisch/action-web-ext@v1
+              with:
+                  cmd: build
+                  source: src
+
+            - name: "web-ext sign AMO"
+              id: web-ext-sign
+              uses: kewisch/action-web-ext@v1
+              with:
+                  cmd: sign
+
+                  channel: listed
+
+                  releaseNotes: ${{ github.event.release.body }}
+
+                  # You can set one of the known licenses from
+                  # https://mozilla.github.io/addons-server/topics/api/licenses.html#license-list
+                  # by just passing the license property. If you have a custsom license, read it from a
+                  # file as follows.
+                  license: MIT
+
+                  # Specify API secrets. No need to specify apiUrlPrefix, it defaults to AMO production
+                  apiKey: ${{ secrets.AMO_SIGN_KEY }}
+                  apiSecret: ${{ secrets.AMO_SIGN_SECRET }}
+                  timeout: 900000
