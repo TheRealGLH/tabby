@@ -2,15 +2,15 @@
 @import "dark.css" screen and (prefers-color-scheme: dark);
 @font-face {
     font-family: Roboto;
-    src: url('../font/Roboto-VariableFont_wdth,wght.ttf');
+    src: url("../font/Roboto-VariableFont_wdth,wght.ttf");
 }
 @font-face {
     font-family: RobotoCondensed;
-    src: url('../font/RobotoCondensed-VariableFont_wght.ttf');
+    src: url("../font/RobotoCondensed-VariableFont_wght.ttf");
 }
 @font-face {
     font-family: RobotoMono;
-    src: url('../font/RobotoMono-VariableFont_wght.ttf');
+    src: url("../font/RobotoMono-VariableFont_wght.ttf");
 }
 body {
     margin: 0;
@@ -76,7 +76,7 @@ body {
     .bookmark-item-folder
     .bookmark-item-container
     .bookmark-list-item
-    .bookmark-item-pic:hover{
+    .bookmark-item-pic:hover {
     scale: 1.05;
 }
 #bookmark-list
@@ -155,6 +155,19 @@ body {
     right: 1em;
 }
 
+#settings-dimmer {
+    position: fixed;
+    /*This gets toggled to be visible in code*/
+    display: none;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    opacity: 0.2;
+    left: 0;
+    top: 0;
+    z-index: -1;
+}
+
 #settings-menu {
     border-radius: 15px;
     padding-bottom: 10px;
@@ -181,8 +194,14 @@ body {
     width: 5em;
 }
 
+.settings-link {
+    font-size: 0.8em;
+}
+
 #settings-button {
-    transition: rotate 0.3s ease-out, opacity 0.3s ease-out;
+    transition:
+        rotate 0.3s ease-out,
+        opacity 0.3s ease-out;
     opacity: 0.5;
     rotate: 0deg;
     display: block;
@@ -192,7 +211,7 @@ body {
     background: none;
     padding: 0.7em;
 }
-#settings-button:hover{
+#settings-button:hover {
     rotate: 180deg;
     opacity: 1;
 }
@@ -203,4 +222,3 @@ hr {
     width: 75%;
     margin-bottom: 2em;
 }
-

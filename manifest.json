@@ -5,7 +5,7 @@
         "name": "Martijn Daniels",
         "url": "https://www.github.com/therealglh"
     },
-    "version": "1.0.0",
+    "version": "1.0.1",
     "minimum_chrome_version": "104",
     "manifest_version": 3,
     "description": "New tab page for your bookmarks, and other cool things.",
