@@ -42,6 +42,7 @@ function init() {
     faveSelect.onchange = function() {
         onSettingsFaveSelect(faveSelect);
     };
+    setVersionText(document.getElementById("settings-version"));
 }
 
 function onBgFileLoaded(bgFileSetting) {
@@ -322,4 +323,10 @@ function updateBackgroundColor(colorHex) {
 
 function updateBackgroundImage(imageUrl) {
     pageCont.style.backgroundImage = "url('" + imageUrl + "')";
+}
+
+function setVersionText(versionAnchorElement) {
+    var version = chrome.runtime.getManifest().version;
+    versionAnchorElement.innerText = "v" + version;
+    versionAnchorElement.href = "https://github.com/TheRealGLH/tabby/releases/tag/" + version;
 }
