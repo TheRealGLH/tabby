@@ -194,6 +194,10 @@ body {
     width: 5em;
 }
 
+.settings-link {
+    font-size: 0.8em;
+}
+
 #settings-button {
     transition:
         rotate 0.3s ease-out,
