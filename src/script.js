@@ -37,6 +37,7 @@ function init() {
     let fullBookmarks = browser.bookmarks.getTree();
     fullBookmarks.then(onBookmarks, onRejected);
     document.getElementById("settings-button").onclick = onSettingsToggle;
+    document.getElementById("settings-dimmer").onclick = onSettingsToggle;
     let faveSelect = document.getElementById("settings-favourites");
     faveSelect.onchange = function() {
         onSettingsFaveSelect(faveSelect);
@@ -54,7 +55,6 @@ function onBgFileLoaded(bgFileSetting) {
     }
     bgUrlSettingsInput.value = bgFileSetting.bgUrl;
     updateBackgroundImage(bgFileSetting.bgUrl);
-
 }
 
 function onBgColorLoaded(bgColorSetting) {
@@ -221,9 +221,12 @@ function getDomainName(url) {
 
 function onSettingsToggle() {
     let menu = document.getElementById("settings-menu");
+    let dimmer = document.getElementById("settings-dimmer");
     if (menu.style.display != "block") {
+        dimmer.style.display = "block";
         menu.style.display = "block";
     } else {
+        dimmer.style.display = "none";
         menu.style.display = "none";
     }
 }
@@ -301,7 +304,6 @@ function onBackgroundFileSelected(fileInputElement) {
     let url = URL.createObjectURL(fileInputElement.files[0]);
     updateBackgroundImage(url);
     console.log(url);
-
 }
 
 function onBackgroundUrlSelected(urlInputElement) {
@@ -319,5 +321,5 @@ function updateBackgroundColor(colorHex) {
 }
 
 function updateBackgroundImage(imageUrl) {
-    pageCont.style.backgroundImage = "url('"+imageUrl+"')";
+    pageCont.style.backgroundImage = "url('" + imageUrl + "')";
 }
