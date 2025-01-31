@@ -1,3 +1,5 @@
+import * as config from "./config.js";
+
 const container = document.querySelector("#bookmark-list");
 const bookmarkTemplate = document.querySelector("#bookmark-list-item-template");
 const pageCont = document.getElementById("page-cont");
@@ -10,9 +12,10 @@ const fadeOutTime = 300; //This is the fadeout time used in style,css for the ma
 var faveTree = null;
 var faveRootId = null;
 var currentFolderId = null;
+
 init();
 
-function init() {
+async function init() {
     let backgroundSelect = document.getElementById("settings-background");
     backgroundSelect.onchange = function() {
         onBackgroundTypeSelect(backgroundSelect.value);
@@ -26,14 +29,37 @@ function init() {
     bgUrlSettingsInput.onchange = function() {
         onBackgroundUrlSelected(bgUrlSettingsInput);
     };
-    let backgroundColor = browser.storage.sync.get("bgColor");
-    backgroundColor.then(onBgColorLoaded, onNoBgType);
-    let backgroundUrl = browser.storage.sync.get("bgUrl");
-    backgroundUrl.then(onBgFileLoaded, onNoBgType);
-    let backGroundType = browser.storage.sync.get("bgType");
-    backGroundType.then(onBgTypeLoaded, onNoBgType);
-    let faveFolder = browser.storage.sync.get("faveFolder");
-    faveFolder.then(onFaveLoaded, onNoFaveSet);
+    let fontSizeInput = document.getElementById("settings-font-size");
+    fontSizeInput.onchange = function() {
+        onFontSizeChange(fontSizeInput);
+    };
+    let fontNameInput = document.getElementById("settings-font");
+    fontNameInput.oninput = function() {
+        onFontNameChange(fontNameInput);
+    };
+
+    await config.initializeConfig();
+    var backgroundColor = config.getBackgroundColor();
+    bgColorSettingsInput.value = backgroundColor;
+    updateBackgroundColor(backgroundColor);
+    var backgroundUrl = config.getBackgroundUrl();
+    bgUrlSettingsInput.value = backgroundUrl;
+    updateBackgroundImage(backgroundUrl);
+    var backgroundType = config.getBackgroundType();
+    document.getElementById("settings-background").value = backgroundType;
+    onBackgroundTypeSelect(backgroundType);
+    var fontSize = config.getFontSize();
+    fontSizeInput.value = fontSize;
+    updateFontSize(fontSize);
+    var fontName = config.getFontName();
+    fontNameInput.value = fontName;
+    updateFontName(fontName);
+    let faveFolder = config.getFavouriteFolder();
+    if (faveFolder === "") onNoFaveSet();
+    let bookmarks = browser.bookmarks.getSubTree(faveFolder);
+    faveRootId = faveFolder;
+    bookmarks.then(displayRootBootmarks, onRejected);
+
     let fullBookmarks = browser.bookmarks.getTree();
     fullBookmarks.then(onBookmarks, onRejected);
     document.getElementById("settings-button").onclick = onSettingsToggle;
@@ -43,62 +69,6 @@ function init() {
         onSettingsFaveSelect(faveSelect);
     };
     setVersionText(document.getElementById("settings-version"));
-}
-
-function onBgFileLoaded(bgFileSetting) {
-    console.log(bgFileSetting);
-    if (
-        Object.keys(bgFileSetting).length === 0 &&
-        bgFileSetting.constructor === Object
-    ) {
-        onNoBgType();
-        return;
-    }
-    bgUrlSettingsInput.value = bgFileSetting.bgUrl;
-    updateBackgroundImage(bgFileSetting.bgUrl);
-}
-
-function onBgColorLoaded(bgColorSetting) {
-    if (
-        Object.keys(bgColorSetting).length === 0 &&
-        bgColorSetting.constructor === Object
-    ) {
-        onNoBgType();
-        return;
-    }
-    bgColorSettingsInput.value = bgColorSetting.bgColor;
-    updateBackgroundColor(bgColorSetting.bgColor);
-}
-
-function onBgTypeLoaded(bgTypeSetting) {
-    if (
-        Object.keys(bgTypeSetting).length === 0 &&
-        bgTypeSetting.constructor === Object
-    ) {
-        onNoBgType();
-        return;
-    }
-    document.getElementById("settings-background").value = bgTypeSetting.bgType;
-    onBackgroundTypeSelect(bgTypeSetting.bgType);
-}
-
-function onNoBgType() {
-    onBackgroundTypeSelect("solid");
-}
-
-function onFaveLoaded(faveBookmarkSetting) {
-    if (
-        Object.keys(faveBookmarkSetting).length === 0 &&
-        faveBookmarkSetting.constructor === Object
-    ) {
-        onNoFaveSet();
-        return;
-    }
-    let bookmarks = browser.bookmarks.getSubTree(
-        faveBookmarkSetting.faveFolder
-    );
-    faveRootId = faveBookmarkSetting.faveFolder;
-    bookmarks.then(displayRootBootmarks, onRejected);
 }
 
 function onNoFaveSet() {
@@ -182,7 +152,6 @@ function renderBookmarkTreeItem(bookmarkTreeItem, parentElement) {
                 onFolderSelect(bookmarkTreeItem);
             };
     } else if (bookmarkTreeItem.type == "separator") {
-        console.log("blah");
         let lineBreak = document.createElement("hr");
         lineBreak.setAttribute("noshade", "");
         parentElement
@@ -233,9 +202,7 @@ function onSettingsToggle() {
 }
 
 function onSettingsFaveSelect(selectElement) {
-    browser.storage.sync.set({
-        faveFolder: selectElement.value,
-    });
+    config.setFavouriteFolder(selectElement.value);
     let selectedBookmarks = browser.bookmarks.getSubTree(selectElement.value);
     selectedBookmarks.then(onBookmarkFaveSettingChange, onRejected);
     //TODO save setting
@@ -289,16 +256,12 @@ function onBackgroundTypeSelect(value) {
         default:
             break;
     }
-    browser.storage.sync.set({
-        bgType: value,
-    });
+    config.setBackgroundType(value);
 }
 
 function onBackgroundColorSelected(colorInputElement) {
     updateBackgroundColor(colorInputElement.value);
-    browser.storage.sync.set({
-        bgColor: colorInputElement.value,
-    });
+    config.setBackgroundColor(colorInputElement.value);
 }
 
 function onBackgroundFileSelected(fileInputElement) {
@@ -310,10 +273,28 @@ function onBackgroundFileSelected(fileInputElement) {
 function onBackgroundUrlSelected(urlInputElement) {
     let url = urlInputElement.value;
     updateBackgroundImage(url);
-    browser.storage.sync.set({
-        bgUrl: urlInputElement.value,
-    });
+    config.setBackgroundUrl(url);
     console.log(url);
+}
+
+function onFontSizeChange(fontSizeInputElement) {
+    let size = fontSizeInputElement.value;
+    updateFontSize(size);
+    config.setFontSize(size);
+}
+
+function onFontNameChange(fontNameInputElement) {
+    let name = fontNameInputElement.value;
+    updateFontName(name);
+    config.setFontName(name);
+}
+
+function updateFontSize(sizeInPixels) {
+    pageCont.style.fontSize = sizeInPixels +"px";
+}
+
+function updateFontName(fontName) {
+    pageCont.style.fontFamily = fontName + ", Roboto, arial, sans-serif";
 }
 
 function updateBackgroundColor(colorHex) {
@@ -328,5 +309,6 @@ function updateBackgroundImage(imageUrl) {
 function setVersionText(versionAnchorElement) {
     var version = chrome.runtime.getManifest().version;
     versionAnchorElement.innerText = "v" + version;
-    versionAnchorElement.href = "https://github.com/TheRealGLH/tabby/releases/tag/" + version;
+    versionAnchorElement.href =
+        "https://github.com/TheRealGLH/tabby/releases/tag/" + version;
 }
