@@ -29,6 +29,10 @@ async function init() {
     bgUrlSettingsInput.onchange = function() {
         onBackgroundUrlSelected(bgUrlSettingsInput);
     };
+    let fontSizeInput = document.getElementById("settings-font-size");
+    fontSizeInput.onchange = function() {
+        onFontSizeChange(fontSizeInput);
+    };
     await config.initializeConfig();
     var backgroundColor = config.getBackgroundColor();
     bgColorSettingsInput.value = backgroundColor;
@@ -39,6 +43,9 @@ async function init() {
     var backgroundType = config.getBackgroundType();
     document.getElementById("settings-background").value = backgroundType;
     onBackgroundTypeSelect(backgroundType);
+    var fontSize = config.getFontSize();
+    fontSizeInput.value = fontSize;
+    updateFontSize(fontSize);
     let faveFolder = config.getFavouriteFolder();
     if (faveFolder === "") onNoFaveSet();
     let bookmarks = browser.bookmarks.getSubTree(faveFolder);
@@ -261,6 +268,16 @@ function onBackgroundUrlSelected(urlInputElement) {
     updateBackgroundImage(url);
     config.setBackgroundUrl(url);
     console.log(url);
+}
+
+function onFontSizeChange(fontSizeInputElement) {
+    let size = fontSizeInputElement.value;
+    updateFontSize(size);
+    config.setFontSize(size);
+}
+
+function updateFontSize(sizeInPixels) {
+    pageCont.style.fontSize = sizeInPixels +"px";
 }
 
 function updateBackgroundColor(colorHex) {
