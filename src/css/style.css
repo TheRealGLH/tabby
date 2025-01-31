@@ -150,6 +150,7 @@ body {
 }
 
 #settings {
+    font-family: Roboto, arial, sans-serif;
     position: fixed;
     top: 7px;
     right: 14px;

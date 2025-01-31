@@ -5,6 +5,7 @@ const defaultConfig = {
     backgroundColor: "#333350",
     backgroundUrl: "",
     fontSize: 14,
+    fontName: "Roboto",
 };
 var currentConfig = structuredClone(defaultConfig);
 
@@ -79,4 +80,13 @@ export function setFontSize(fontSize) {
 
 export function getFontSize() {
     return currentConfig.fontSize;
+}
+
+export function setFontName(fontName) {
+    currentConfig.fontName = fontName;
+    saveConfig();
+}
+
+export function getFontName() {
+    return currentConfig.fontName;
 }
