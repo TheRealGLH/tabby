@@ -4,6 +4,7 @@ const defaultConfig = {
     backgroundType: "solid",
     backgroundColor: "#333350",
     backgroundUrl: "",
+    fontSize: 14,
 };
 var currentConfig = structuredClone(defaultConfig);
 
@@ -69,4 +70,13 @@ export function setBackgroundUrl(backgroundUrl) {
 
 export function getBackgroundUrl() {
     return currentConfig.backgroundUrl;
+}
+
+export function setFontSize(fontSize) {
+    currentConfig.fontSize = fontSize;
+    saveConfig();
+}
+
+export function getFontSize() {
+    return currentConfig.fontSize;
 }
