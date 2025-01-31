@@ -33,6 +33,11 @@ async function init() {
     fontSizeInput.onchange = function() {
         onFontSizeChange(fontSizeInput);
     };
+    let fontNameInput = document.getElementById("settings-font");
+    fontNameInput.oninput = function() {
+        onFontNameChange(fontNameInput);
+    };
+
     await config.initializeConfig();
     var backgroundColor = config.getBackgroundColor();
     bgColorSettingsInput.value = backgroundColor;
@@ -46,6 +51,9 @@ async function init() {
     var fontSize = config.getFontSize();
     fontSizeInput.value = fontSize;
     updateFontSize(fontSize);
+    var fontName = config.getFontName();
+    fontNameInput.value = fontName;
+    updateFontName(fontName);
     let faveFolder = config.getFavouriteFolder();
     if (faveFolder === "") onNoFaveSet();
     let bookmarks = browser.bookmarks.getSubTree(faveFolder);
@@ -144,7 +152,6 @@ function renderBookmarkTreeItem(bookmarkTreeItem, parentElement) {
                 onFolderSelect(bookmarkTreeItem);
             };
     } else if (bookmarkTreeItem.type == "separator") {
-        console.log("blah");
         let lineBreak = document.createElement("hr");
         lineBreak.setAttribute("noshade", "");
         parentElement
@@ -276,8 +283,18 @@ function onFontSizeChange(fontSizeInputElement) {
     config.setFontSize(size);
 }
 
+function onFontNameChange(fontNameInputElement) {
+    let name = fontNameInputElement.value;
+    updateFontName(name);
+    config.setFontName(name);
+}
+
 function updateFontSize(sizeInPixels) {
     pageCont.style.fontSize = sizeInPixels +"px";
+}
+
+function updateFontName(fontName) {
+    pageCont.style.fontFamily = fontName + ", Roboto, arial, sans-serif";
 }
 
 function updateBackgroundColor(colorHex) {
