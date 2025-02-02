@@ -1,4 +1,6 @@
 web-ext-artifacts/*
+.amo-upload-uuid
+.github/workflows/pr.event.json
 # Created by https://www.toptal.com/developers/gitignore/api/osx,macos,linux,windows
 # Edit at https://www.toptal.com/developers/gitignore?templates=osx,macos,linux,windows
 
