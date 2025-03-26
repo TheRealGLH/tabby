@@ -1,5 +1,6 @@
 import * as config from "./config.js";
 
+const faviconApiDomain = "https://twenty-icons.com";
 const container = document.querySelector("#bookmark-list");
 const bookmarkTemplate = document.querySelector("#bookmark-list-item-template");
 const pageCont = document.getElementById("page-cont");
@@ -164,9 +165,10 @@ function renderBookmarkTreeItem(bookmarkTreeItem, parentElement) {
         var domainName = getDomainName(bookmarkTreeItem.url);
         if (domainName != null) {
             clone.querySelector(".bookmark-item-pic").style.backgroundImage =
-                "url('https://quintessential-jade-termite.faviconkit.com/" +
+                "url('" +
+                faviconApiDomain + "/" +
                 domainName +
-                "/144')";
+                "/180')";
         }
     }
     clone.querySelector(".bookmark-list-item-text").textContent =
@@ -290,7 +292,7 @@ function onFontNameChange(fontNameInputElement) {
 }
 
 function updateFontSize(sizeInPixels) {
-    pageCont.style.fontSize = sizeInPixels +"px";
+    pageCont.style.fontSize = sizeInPixels + "px";
 }
 
 function updateFontName(fontName) {
